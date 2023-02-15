@@ -1,0 +1,36 @@
+version: '3'
+services:
+  database:
+    image: postgres:13.4-alpine
+    env_file: .env
+    volumes:
+      - database:/var/lib/postgresql/data
+    restart: always
+
+  app:
+    # Make sure to use the latest release from https://hedgedoc.org/latest-release
+    image: quay.io/hedgedoc/hedgedoc:1.9.6
+    env_file: .env
+    volumes:
+      - uploads:/hedgedoc/public/uploads
+    networks:
+      - default
+      - caddy
+    labels:
+      caddy: input.scs.community
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+    ports:
+      - "127.0.0.1:3000:3000"
+    restart: always
+    depends_on:
+      - database
+
+volumes:
+  database:
+  uploads:
+
+networks:
+  default:
+  caddy:
+    external: true
+

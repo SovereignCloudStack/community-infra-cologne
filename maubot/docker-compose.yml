@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  app:
+    image: dock.mau.dev/maubot/maubot
+    restart: always
+    networks:
+      - caddy
+    labels:
+      caddy: maubot.scs.community
+      caddy.reverse_proxy: "{{upstreams 29316}}"
+    volumes:
+      - data:/data
+
+volumes:
+  data:
+
+networks:
+  caddy:
+    external: true
