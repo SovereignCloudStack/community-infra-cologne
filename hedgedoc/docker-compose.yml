@@ -1,7 +1,7 @@
 version: '3'
 services:
   database:
-    image: postgres:13.4-alpine
+    image: postgres:13-alpine
     env_file: .env
     volumes:
       - database:/var/lib/postgresql/data
@@ -9,7 +9,7 @@ services:
 
   app:
     # Make sure to use the latest release from https://hedgedoc.org/latest-release
-    image: quay.io/hedgedoc/hedgedoc:1.9.6
+    image: quay.io/hedgedoc/hedgedoc:1.9.9
     env_file: .env
     volumes:
       - uploads:/hedgedoc/public/uploads
